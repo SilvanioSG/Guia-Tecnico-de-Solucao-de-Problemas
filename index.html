@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia Técnico de Solução de Problemas | Silvanio Gois</title>
+    <!-- Fonte Profissional -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: rgb(39, 98, 141); /* Cor solicitada */
+            --primary-dark: rgb(29, 78, 115);
+            --secondary-bg: #f4f7f9;
+            --text-color: #333;
+            --light-text: #fff;
+            --border-color: #e0e0e0;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* --- CABEÇALHO --- */
+        header {
+            background-color: var(--primary-color);
+            color: var(--light-text);
+            padding: 2rem 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .profile-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .profile-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%; /* Foto circular */
+            object-fit: cover;
+            border: 3px solid rgba(255,255,255,0.3);
+            background-color: #fff; /* Fallback se a imagem falhar */
+        }
+
+        .profile-info h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .profile-info p {
+            font-size: 1rem;
+            opacity: 0.9;
+            font-weight: 300;
+            color: var(--light-text); /* Forçando a cor clara para sobrescrever o cinza global */
+        }
+
+        .contact-btn {
+            background-color: #25D366; /* Verde WhatsApp */
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .contact-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+            background-color: #1ebc57;
+        }
+
+        /* --- NAVEGAÇÃO --- */
+        nav {
+            background-color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 5%;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            overflow-x: auto;
+        }
+
+        nav ul li a {
+            display: block;
+            padding: 15px 20px;
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        nav ul li a:hover, nav ul li a.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        /* --- CONTEÚDO PRINCIPAL --- */
+        main {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 5%;
+        }
+
+        section {
+            background: white;
+            margin-bottom: 40px;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-top: 5px solid var(--primary-color);
+        }
+
+        h2 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3 {
+            color: #444;
+            margin: 25px 0 15px 0;
+            font-size: 1.4rem;
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: #666;
+            text-align: justify;
+        }
+
+        /* --- FRAMEWORK CARDS --- */
+        .framework-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .framework-card {
+            background: var(--secondary-bg);
+            padding: 25px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+            transition: transform 0.2s;
+        }
+
+        .framework-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .framework-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        /* --- TABELA DE REFERÊNCIA --- */
+        .reference-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .reference-table thead {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .reference-table th, .reference-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .reference-table tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .reference-table tbody tr:hover {
+            background-color: #e9f7fe;
+        }
+
+        .reference-table td {
+            vertical-align: top;
+        }
+
+        .tool-badge {
+            display: inline-block;
+            background: #e9f7fe;
+            color: var(--primary-color);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin: 2px 4px 2px 0;
+            border: 1px solid #c1e3ff;
+        }
+
+        /* --- EXEMPLOS SETORIAIS (TABELA) --- */
+        .case-study {
+            background-color: #fff;
+            border: 1px solid var(--border-color);
+            margin-bottom: 20px;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .case-header {
+            background-color: var(--secondary-bg);
+            padding: 15px 25px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--primary-color);
+        }
+
+        .case-header:hover {
+            background-color: #eef3f6;
+        }
+
+        .case-content {
+            padding: 25px;
+            display: none; /* Hidden by default */
+            border-top: 1px solid var(--border-color);
+        }
+
+        .case-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .badge {
+            background: var(--primary-color);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .area-badge {
+            background: #2c5282;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        /* --- FERRAMENTA INTERATIVA (5W2H) --- */
+        .tool-container {
+            background-color: #f8f9fa;
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px dashed var(--primary-color);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .btn-generate {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+            margin-right: 10px;
+        }
+
+        .btn-generate:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-clear {
+            background-color: var(--danger-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        .btn-clear:hover {
+            background-color: #c82333;
+        }
+
+        #output-area {
+            margin-top: 25px;
+            padding: 20px;
+            background: white;
+            border-left: 5px solid var(--success-color);
+            display: none;
+        }
+
+        /* --- BOTÃO VOLTAR AO TOPO --- */
+        #back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #back-to-top:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+        }
+
+        /* --- RODAPÉ ATUALIZADO --- */
+        footer {
+            background-color: #27628d; /* Cor específica solicitada */
+            color: white; /* Texto branco como solicitado */
+            padding: 40px 5%;
+            text-align: center;
+            border-top: 5px solid var(--primary-dark);
+        }
+
+        footer p {
+            color: white; /* Garantindo que os parágrafos fiquem brancos */
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        footer a {
+            color: white; /* Links brancos */
+            text-decoration: none;
+            font-weight: bold;
+            border-bottom: 1px dotted rgba(255, 255, 255, 0.6);
+            transition: all 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #f0f0f0; /* Tom mais claro no hover */
+            border-bottom-color: white;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+            .profile-container {
+                flex-direction: column;
+            }
+            nav ul {
+                justify-content: center;
+            }
+            .btn-generate, .btn-clear {
+                width: 100%;
+                margin-bottom: 10px;
+                margin-right: 0;
+            }
+            #back-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+                font-size: 1rem;
+            }
+            .reference-table {
+                font-size: 0.9rem;
+            }
+            .reference-table th, .reference-table td {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CABEÇALHO -->
+    <header id="inicio">
+        <div class="profile-container">
+            <!-- Imagem conforme solicitado. O CSS garante que ela fique redonda e bonita. -->
+            <img src="Executivo_Silvanio_Gestor.PNG" alt="Silvanio Gois" class="profile-img" onerror="this.src='https://via.placeholder.com/150/27628d/FFFFFF?text=SG'">
+            <div class="profile-info">
+                <h1>Guia Técnico de Solução de Problemas</h1>
+                <p>Gestão e Metodologia: <strong>Silvanio Gois</strong></p>
+            </div>
+        </div>
+        <a href="https://wa.me/5513988301094" target="_blank" class="contact-btn">
+            <i class="fab fa-whatsapp"></i> Contato
+        </a>
+    </header>
+
+    <!-- NAVEGAÇÃO -->
+    <nav>
+        <ul>
+            <li><a href="#metodologia">A Metodologia</a></li>
+            <li><a href="#ferramentas">Ferramentas Práticas</a></li>
+            <li><a href="#casos">Casos por Área Funcional</a></li>
+            <li><a href="#interativo">Gerador de Plano</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <!-- SEÇÃO 1: INTRODUÇÃO E METODOLOGIA -->
+        <section id="metodologia">
+            <h2><i class="fas fa-chess-board"></i> A Estrutura Lógica de Resolução</h2>
+            <p>A gestão empresarial eficaz não se baseia em intuição, mas em métodos consolidados. Este guia utiliza uma abordagem híbrida entre <strong>MASP</strong> (Método de Análise e Solução de Problemas) e <strong>Lean Six Sigma</strong>. O objetivo é eliminar a causa raiz, evitando que o problema retorne.</p>
+            
+            <!-- TABELA DE REFERÊNCIA CRUZADA -->
+            <h3><i class="fas fa-table"></i> Referência Rápida: Ferramentas por Fase</h3>
+            <p>Use esta tabela para selecionar a ferramenta mais adequada para cada etapa do problema:</p>
+            
+            <table class="reference-table">
+                <thead>
+                    <tr>
+                        <th>Fase do Problema</th>
+                        <th>Objetivo Principal</th>
+                        <th>Ferramentas Recomendadas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>1. Definição (Diagnóstico)</strong></td>
+                        <td>Isolar e especificar o problema com precisão</td>
+                        <td>
+                            <span class="tool-badge">Observação Direta</span>
+                            <span class="tool-badge">Brainstorming</span>
+                            <span class="tool-badge">Coleta de Dados</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>2. Análise (Causa Raiz)</strong></td>
+                        <td>Identificar as causas fundamentais do problema</td>
+                        <td>
+                            <span class="tool-badge">Diagrama de Ishikawa</span>
+                            <span class="tool-badge">5 Porquês</span>
+                            <span class="tool-badge">Pareto (80/20)</span>
+                            <span class="tool-badge">Matriz GUT</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>3. Plano de Ação</strong></td>
+                        <td>Transformar estratégia em tática executável</td>
+                        <td>
+                            <span class="tool-badge">5W2H</span>
+                            <span class="tool-badge">Gráfico de Gantt</span>
+                            <span class="tool-badge">Caminho Crítico</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>4. Controle e Melhoria</strong></td>
+                        <td>Monitorar resultados e padronizar soluções</td>
+                        <td>
+                            <span class="tool-badge">PDCA</span>
+                            <span class="tool-badge">Dashboard de KPIs</span>
+                            <span class="tool-badge">Fluxograma</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="framework-grid">
+                <div class="framework-card">
+                    <h4>1. Definição (Diagnóstico)</h4>
+                    <p>O maior erro corporativo é tentar resolver um sintoma. Nesta fase, isolamos o fato. Não é "as vendas caíram", é "a conversão de leads frios caiu 20% na regional Sul".</p>
+                </div>
+                <div class="framework-card">
+                    <h4>2. Análise (Causa Raiz)</h4>
+                    <p>Uso de ferramentas estatísticas e lógicas (Ishikawa, 5 Porquês) para entender o mecanismo da falha. Buscamos a causalidade, não a culpabilidade.</p>
+                </div>
+                <div class="framework-card">
+                    <h4>3. Plano de Ação (5W2H)</h4>
+                    <p>Transformação da estratégia em tática. Quem faz o quê, quando, onde e quanto custa. Sem um plano detalhado, a solução é apenas um desejo.</p>
+                </div>
+                <div class="framework-card">
+                    <h4>4. Controle (PDCA)</h4>
+                    <p>Monitoramento dos KPIs pós-implementação. Se o resultado foi atingido, padroniza-se o processo. Se não, o ciclo reinicia.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 2: FERRAMENTAS DETALHADAS -->
+        <section id="ferramentas">
+            <h2><i class="fas fa-tools"></i> Ferramentas de Aplicação</h2>
+            <p>Para cada fase do problema, existe uma ferramenta específica. O uso correto determina o sucesso da gestão.</p>
+
+            <h3><i class="fas fa-fish"></i> Diagrama de Ishikawa (6Ms)</h3>
+            <p>Utilizado para problemas complexos onde a causa não é óbvia. Categoriza-se o problema em:</p>
+            <ul style="margin-left: 20px; color: #555;">
+                <li><strong>Método:</strong> Os procedimentos estavam corretos?</li>
+                <li><strong>Matéria-prima:</strong> Houve falha nos insumos?</li>
+                <li><strong>Mão de Obra:</strong> Falta de treinamento ou erro humano?</li>
+                <li><strong>Máquinas:</strong> Falha de equipamento ou tecnologia?</li>
+                <li><strong>Meio Ambiente:</strong> Layout, clima ou cultura organizacional?</li>
+                <li><strong>Medida:</strong> Os dados analisados são confiáveis?</li>
+            </ul>
+
+            <h3><i class="fas fa-question"></i> Técnica dos 5 Porquês</h3>
+            <p>Ferramenta simples e poderosa para chegar à causa raiz através de perguntas sucessivas. Ideal para problemas com poucas variáveis onde a relação causa-efeito é direta.</p>
+            <div style="background-color: #f0f8ff; padding: 15px; border-left: 4px solid var(--primary-color); margin: 15px 0; border-radius: 4px;">
+                <strong>Exemplo Prático:</strong><br>
+                <em>Problema:</em> Máquina parada<br>
+                1. Por que parou? - Superaquecimento<br>
+                2. Por que superaqueceu? - Falha no sistema de refrigeração<br>
+                3. Por que falhou? - Filtro de ar entupido<br>
+                4. Por que entupiu? - Manutenção preventiva não realizada<br>
+                5. Por que não foi realizada? - Checklist de manutenção desatualizado (Causa Raiz)
+            </div>
+
+            <h3><i class="fas fa-chart-bar"></i> Princípio de Pareto (80/20)</h3>
+            <p>Na gestão, recursos são finitos. Pareto ensina que 80% dos problemas vêm de 20% das causas. Focar nos 20% vitais gera o maior impacto com o menor esforço.</p>
+
+            <h3><i class="fas fa-list-check"></i> Matriz GUT (Priorização)</h3>
+            <p>Quando há múltiplos problemas, classificamos por:</p>
+            <ul style="margin-left: 20px; color: #555;">
+                <li><strong>Gravidade:</strong> O dano atual (Financeiro/Imagem).</li>
+                <li><strong>Urgência:</strong> O tempo disponível para resolver.</li>
+                <li><strong>Tendência:</strong> Se nada for feito, o problema piora?</li>
+            </ul>
+
+            <h3><i class="fas fa-chart-line"></i> Ciclo PDCA (Controle)</h3>
+            <p>Plan (Planejar) → Do (Executar) → Check (Verificar) → Act (Agir). Ferramenta essencial para garantir que a solução seja mantida e melhorada continuamente. Após implementar o plano 5W2H, o PDCA assegura a consolidação dos ganhos.</p>
+            <div style="background-color: #f0f8ff; padding: 15px; border-left: 4px solid var(--primary-color); margin: 15px 0; border-radius: 4px;">
+                <strong>Como aplicar:</strong><br>
+                1. <strong>PLANEJAR:</strong> Definir objetivos e métodos (5W2H)<br>
+                2. <strong>EXECUTAR:</strong> Implementar o plano<br>
+                3. <strong>VERIFICAR:</strong> Analisar resultados vs. expectativas<br>
+                4. <strong>AGIR:</strong> Padronizar (se ok) ou corrigir (se problemas)
+            </div>
+        </section>
+
+        <!-- SEÇÃO 3: CASOS POR ÁREA FUNCIONAL (REESTRUTURADA) -->
+        <section id="casos">
+            <h2><i class="fas fa-briefcase"></i> Casos Práticos por Área Funcional</h2>
+            <p>Abaixo, exemplos de como aplicar a metodologia em problemas específicos de cada área funcional da empresa. Clique para expandir os detalhes técnicos.</p>
+
+            <!-- Caso 1: RH -->
+            <div class="case-study">
+                <div class="case-header" onclick="toggleCase(this)">
+                    <span><i class="fas fa-users"></i> Área: Recursos Humanos (RH)</span>
+                    <span class="area-badge">Turnover</span>
+                </div>
+                <div class="case-content">
+                    <strong>Problema Definido:</strong> Turnover de 25% entre colaboradores com menos de 1 ano de empresa.<br><br>
+                    <strong>Análise (Ishikawa + Pesquisa de Saída):</strong>
+                    <ul>
+                        <li><em>Método:</em> Processo de onboarding ineficiente.</li>
+                        <li><em>Mão de Obra:</em> Gestores sem treinamento em liderança.</li>
+                        <li><em>Meio Ambiente:</em> Cultura organizacional não acolhedora.</li>
+                        <li><em>Medida:</em> Pesquisa de clima com foco nos recém-contratados.</li>
+                    </ul>
+                    <br>
+                    <strong>Ferramentas de Análise:</strong> Pesquisa de satisfação, Análise de feedback de saída, Entrevistas de desligamento<br>
+                    <strong>Solução (5W2H):</strong> Reestruturar programa de onboarding (90 dias). Criar programa de mentoria. Treinar gestores em feedback construtivo.<br>
+                    <strong>Controle (PDCA):</strong> Dashboard de turnover mensal. Pesquisa de satisfação pós-onboarding (30/60/90 dias).<br>
+                    <strong>Meta:</strong> Reduzir turnover para 12% em 6 meses.
+                </div>
+            </div>
+
+            <!-- Caso 2: Financeiro -->
+            <div class="case-study">
+                <div class="case-header" onclick="toggleCase(this)">
+                    <span><i class="fas fa-chart-line"></i> Área: Financeiro</span>
+                    <span class="area-badge">Controle de Custos</span>
+                </div>
+                <div class="case-content">
+                    <strong>Problema Definido:</strong> Aumento de 18% nos custos operacionais sem aumento correspondente em receita.<br><br>
+                    <strong>Análise (Pareto + 5 Porquês):</strong>
+                    <ul>
+                        <li>80% do aumento vinha de 3 despesas: logística, serviços terceirizados e materiais de escritório.</li>
+                        <li><em>5 Porquês na logística:</em> Aumento custo combustível → Rotas não otimizadas → Falta de software de roteirização → Orçamento não previsto → Priorização inadequada.</li>
+                    </ul>
+                    <br>
+                    <strong>Ferramentas de Análise:</strong> Análise de variação orçamentária, Curva ABC de despesas, Benchmarking setorial<br>
+                    <strong>Solução (5W2H):</strong> Implementar controle orçamentário por centro de custo. Negociar contratos com fornecedores. Adotar software de roteirização.<br>
+                    <strong>Controle (PDCA):</strong> Relatório de desvios orçamentários (semanal). Revisão trimestral de contratos. Dashboard de KPIs financeiros.<br>
+                    <strong>Meta:</strong> Reduzir custos operacionais em 8% mantendo qualidade.
+                </div>
+            </div>
+
+            <!-- Caso 3: Operações -->
+            <div class="case-study">
+                <div class="case-header" onclick="toggleCase(this)">
+                    <span><i class="fas fa-cogs"></i> Área: Operações</span>
+                    <span class="area-badge">Eficiência Produtiva</span>
+                </div>
+                <div class="case-content">
+                    <strong>Problema Definido:</strong> Produtividade abaixo do padrão setorial em 22% na linha de produção B.<br><br>
+                    <strong>Análise (Ishikawa + Cronoanálise):</strong>
+                    <ul>
+                        <li><em>Método:</em> Sequência operacional ineficiente.</li>
+                        <li><em>Máquinas:</em> Tempo de setup excessivo (45 min vs padrão 20 min).</li>
+                        <li><em>Mão de Obra:</strong> Falta de padronização nos movimentos.</li>
+                        <li><em>Matéria-prima:</em> Qualidade inconsistente gerando retrabalho.</li>
+                    </ul>
+                    <br>
+                    <strong>Ferramentas de Análise:</strong> Cronoanálise, Diagrama de spaghetti, Estudo de tempos e movimentos<br>
+                    <strong>Solução (5W2H):</strong> Redesenhar layout da linha. Implementar procedimento padrão (POP). Treinar operadores em SMED (troca rápida).<br>
+                    <strong>Controle (PDCA):</strong> OEE (Overall Equipment Effectiveness) diário. Gráfico de produtividade por turno. Auditoria de qualidade.<br>
+                    <strong>Meta:</strong> Aumentar produtividade em 15% em 60 dias.
+                </div>
+            </div>
+
+            <!-- Caso 4: Contabilidade -->
+            <div class="case-study">
+                <div class="case-header" onclick="toggleCase(this)">
+                    <span><i class="fas fa-file-invoice-dollar"></i> Área: Contabilidade</span>
+                    <span class="area-badge">Conformidade Fiscal</span>
+                </div>
+                <div class="case-content">
+                    <strong>Problema Definido:</strong> 3 multas fiscais no último trimestre por erros na apuração de impostos.<br><br>
+                    <strong>Análise (5 Porquês + Checklist de Conformidade):</strong>
+                    1. Por que multas? → Erro na apuração do ICMS<br>
+                    2. Por que erro? → Alteração na legislação não implementada<br>
+                    3. Por que não implementada? → Sistema não atualizado<br>
+                    4. Por que não atualizado? → Falta de procedimento para monitorar mudanças<br>
+                    5. Por que falta procedimento? → Não havia responsável designado (Causa Raiz)<br>
+                    <br>
+                    <strong>Ferramentas de Análise:</strong> Checklist de conformidade, Matriz de riscos fiscais, Auditoria interna<br>
+                    <strong>Solução (5W2H):</strong> Designar responsável por monitoramento fiscal. Implementar sistema atualizado. Criar checklist mensal de conformidade.<br>
+                    <strong>Controle (PDCA):</strong> Relatório de conformidade mensal. Treinamento trimestral da equipe. Revisão semestral de processos.<br>
+                    <strong>Meta:</strong> Zero multas fiscais nos próximos 12 meses.
+                </div>
+            </div>
+
+            <!-- Caso 5: Marketing & Vendas -->
+            <div class="case-study">
+                <div class="case-header" onclick="toggleCase(this)">
+                    <span><i class="fas fa-bullhorn"></i> Área: Marketing & Vendas</span>
+                    <span class="area-badge">Conversão de Leads</span>
+                </div>
+                <div class="case-content">
+                    <strong>Problema Definido:</strong> Taxa de conversão de leads frios caiu de 8% para 4% no último trimestre.<br><br>
+                    <strong>Análise (Pareto + Análise de Funil):</strong>
+                    <ul>
+                        <li>80% da queda ocorria na etapa de qualificação (MQL para SQL).</li>
+                        <li><em>Causas identificadas:</em> Critérios de qualificação desatualizados. Falta de alinhamento entre marketing e vendas. Follow-up lento (>48h).</li>
+                    </ul>
+                    <br>
+                    <strong>Ferramentas de Análise:</strong> Análise de funil de vendas, Customer journey mapping, A/B testing<br>
+                    <strong>Solução (5W2H):</strong> Redefinir critérios de MQL/SQL com vendas. Implementar automação de follow-up (24h). Criar SLA entre áreas.<br>
+                    <strong>Controle (PDCA):</strong> Dashboard de conversão semanal. Tempo médio de resposta. Taxa de fechamento por origem.<br>
+                    <strong>Meta:</strong> Recuperar taxa para 7% em 90 dias.
+                </div>
+            </div>
+
+            <!-- Caso 6: Administração -->
+            <div class="case-study">
+                <div class="case-header" onclick="toggleCase(this)">
+                    <span><i class="fas fa-building"></i> Área: Administração</span>
+                    <span class="area-badge">Gestão de Processos</span>
+                </div>
+                <div class="case-content">
+                    <strong>Problema Definido:</strong> Aprovação de solicitações de compra leva em média 7 dias (meta: 2 dias).<br><br>
+                    <strong>Análise (Mapeamento de Processo + Fluxograma):</strong>
+                    <ul>
+                        <li><em>Etapas identificadas:</em> Solicitação → Aprovação do gestor → Compras → Financeiro → Aprovação final.</li>
+                        <li><em>Gargalos:</em> Aprovação do gestor (3 dias em média). Falta de limite pré-aprovado. Processo 100% manual/paper.</li>
+                    </ul>
+                    <br>
+                    <strong>Ferramentas de Análise:</strong> Fluxograma AS-IS/TO-BE, Análise de tempo de ciclo, Matriz RACI<br>
+                    <strong>Solução (5W2H):</strong> Implementar sistema eletrônico de aprovações. Definir limites por cargo. Automatizar aprovações de baixo valor.<br>
+                    <strong>Controle (PDCA):</strong> Tempo médio de aprovação (diário). Taxa de aprovação automática. Satisfação dos solicitantes.<br>
+                    <strong>Meta:</strong> Reduzir tempo médio para 1,5 dias em 30 dias.
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 4: FERRAMENTA INTERATIVA -->
+        <section id="interativo">
+            <h2><i class="fas fa-calculator"></i> Ferramenta: Gerador de Plano 5W2H</h2>
+            <p>Utilize o formulário abaixo para estruturar rapidamente uma solução para um problema atual da sua gestão.</p>
+            
+            <div class="tool-container">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>O Que? (Ação)</label>
+                        <input type="text" id="w-what" placeholder="Ex: Contratar sistema CRM">
+                    </div>
+                    <div class="form-group">
+                        <label>Por Que? (Justificativa)</label>
+                        <input type="text" id="w-why" placeholder="Ex: Centralizar dados de clientes">
+                    </div>
+                    <div class="form-group">
+                        <label>Quem? (Responsável)</label>
+                        <input type="text" id="w-who" placeholder="Ex: Gerente de TI">
+                    </div>
+                    <div class="form-group">
+                        <label>Quando? (Prazo)</label>
+                        <input type="date" id="w-when">
+                    </div>
+                    <div class="form-group">
+                        <label>Onde? (Local)</label>
+                        <input type="text" id="w-where" placeholder="Ex: Departamento Comercial">
+                    </div>
+                    <div class="form-group">
+                        <label>Como? (Método)</label>
+                        <textarea id="w-how" rows="1" placeholder="Ex: Cotar 3 fornecedores..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Quanto Custa? (Custo)</label>
+                        <input type="text" id="w-cost" placeholder="Ex: R$ 5.000,00">
+                    </div>
+                </div>
+                <button class="btn-generate" onclick="generatePlan()">Gerar Plano Formatado</button>
+                <button class="btn-clear" onclick="clearPlan()">Limpar Plano</button>
+
+                <div id="output-area">
+                    <h3><i class="fas fa-file-signature"></i> Plano de Ação Consolidado</h3>
+                    <p><strong>Ação Estratégica:</strong> <span id="out-what"></span></p>
+                    <p><strong>Motivo (Causa Raiz):</strong> <span id="out-why"></span></p>
+                    <hr style="margin: 10px 0; border: 0; border-top: 1px dashed #ccc;">
+                    <p><strong>Responsável:</strong> <span id="out-who"></span> | <strong>Prazo:</strong> <span id="out-when"></span></p>
+                    <p><strong>Local:</strong> <span id="out-where"></span></p>
+                    <p><strong>Metodologia:</strong> <span id="out-how"></span></p>
+                    <p style="font-size: 1.1rem; color: var(--primary-color); font-weight: bold; margin-top: 10px;">Investimento: <span id="out-cost"></span></p>
+                    <hr style="margin: 15px 0; border: 0; border-top: 1px dashed #ccc;">
+                    <p style="font-size: 0.9rem; color: #666;"><i class="fas fa-lightbulb"></i> <strong>Dica:</strong> Após implementar este plano, utilize o ciclo PDCA para monitorar os resultados e garantir a efetividade da solução.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- RODAPÉ ATUALIZADO -->
+    <footer>
+        <p>&copy; 2025 Silvanio Gois - Todos os direitos reservados.</p>
+        <p style="margin-top: 10px;">
+            <a href="https://www.silvaniogois.com.br/" target="_blank">Ir ao Site Oficial <i class="fas fa-external-link-alt"></i></a>
+        </p>
+        <p style="margin-top: 15px; font-size: 0.9rem; opacity: 0.8;">
+            Guia Técnico de Solução de Problemas - Metodologias MASP e Lean Six Sigma
+        </p>
+    </footer>
+
+    <!-- BOTÃO VOLTAR AO TOPO -->
+    <button id="back-to-top" title="Voltar ao topo">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- SCRIPTS -->
+    <script>
+        // Função para expandir/recolher os estudos de caso
+        function toggleCase(header) {
+            const content = header.nextElementSibling;
+            
+            // Fecha todos os outros primeiro (efeito sanfona)
+            const allContents = document.querySelectorAll('.case-content');
+            allContents.forEach(c => {
+                if (c !== content) {
+                    c.classList.remove('active');
+                    c.previousElementSibling.style.backgroundColor = '';
+                }
+            });
+
+            // Alterna o atual
+            content.classList.toggle('active');
+            
+            // Muda cor do header para indicar ativo
+            if (content.classList.contains('active')) {
+                header.style.backgroundColor = '#e3ebf1';
+            } else {
+                header.style.backgroundColor = '';
+            }
+        }
+
+        // Função do Gerador 5W2H
+        function generatePlan() {
+            // Coleta dados
+            const what = document.getElementById('w-what').value;
+            const why = document.getElementById('w-why').value;
+            const who = document.getElementById('w-who').value;
+            const when = document.getElementById('w-when').value;
+            const where = document.getElementById('w-where').value;
+            const how = document.getElementById('w-how').value;
+            const cost = document.getElementById('w-cost').value;
+
+            // Validação simples
+            if(!what || !who) {
+                alert("Por favor, preencha pelo menos 'O Que' e 'Quem' para gerar o plano.");
+                return;
+            }
+
+            // Formata a data se existir
+            let formattedDate = when;
+            if (when) {
+                const dateObj = new Date(when);
+                formattedDate = dateObj.toLocaleDateString('pt-BR');
+            }
+
+            // Preenche saída
+            document.getElementById('out-what').innerText = what;
+            document.getElementById('out-why').innerText = why;
+            document.getElementById('out-who').innerText = who;
+            document.getElementById('out-when').innerText = formattedDate;
+            document.getElementById('out-where').innerText = where;
+            document.getElementById('out-how').innerText = how;
+            document.getElementById('out-cost').innerText = cost;
+
+            // Mostra área
+            document.getElementById('output-area').style.display = 'block';
+            
+            // Scroll suave até o resultado
+            document.getElementById('output-area').scrollIntoView({behavior: "smooth"});
+        }
+
+        // Função para limpar o plano 5W2H
+        function clearPlan() {
+            // Limpa os campos
+            document.getElementById('w-what').value = '';
+            document.getElementById('w-why').value = '';
+            document.getElementById('w-who').value = '';
+            document.getElementById('w-when').value = '';
+            document.getElementById('w-where').value = '';
+            document.getElementById('w-how').value = '';
+            document.getElementById('w-cost').value = '';
+
+            // Esconde a área de saída
+            document.getElementById('output-area').style.display = 'none';
+            
+            // Foca no primeiro campo
+            document.getElementById('w-what').focus();
+        }
+
+        // Highlight do menu ao rolar
+        window.addEventListener('scroll', function() {
+            let fromTop = window.scrollY + 100;
+            let navLinks = document.querySelectorAll('nav ul li a');
+
+            navLinks.forEach(link => {
+                let section = document.querySelector(link.hash);
+                if (section.offsetTop <= fromTop && section.offsetTop + section.offsetHeight > fromTop) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+
+            // Mostra/oculta botão voltar ao topo
+            const backToTopButton = document.getElementById('back-to-top');
+            if (window.scrollY > 300) {
+                backToTopButton.style.display = 'flex';
+            } else {
+                backToTopButton.style.display = 'none';
+            }
+        });
+
+        // Botão voltar ao topo
+        document.getElementById('back-to-top').addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Preenche a data atual como padrão no campo "Quando"
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('w-when').value = today;
+        });
+    </script>
+</body>
+</html>
